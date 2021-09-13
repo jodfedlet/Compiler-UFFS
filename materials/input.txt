@@ -1,0 +1,4 @@
+if a_2 > s2.3 :
+    print ( a )
+else : ds
+   2a = a + 1
