@@ -1,11 +1,10 @@
 
 import re
-import keyword as kw
 
-keyword_list = kw.kwlist
 
-token_re_and_types = [
-
+keyword_list = [
+'auto','break','case','char','const','continue','default','do','else','enum','float','for','if','extern','double','int','long','register','return','short',
+'signed','sizeof','static','struct','switch','continue','typedef','union','unsigned','void','volatile'
 ]
 
 with open("../materials/input.txt", "r") as f:
@@ -62,29 +61,32 @@ variables = re.compile(r'^[a-zA-Z_][a-zA-Z0-9_]*')
 tokens = []
 for index, line in enumerate(all_lines):
     for token in line.split( ):
-        know_token = ()
+        known_token = ()
         has_error = False
         if integers_number.match(token):
-            know_token = (token, "INT")
+            known_token = (token, "INT")
         elif float_numbers.match(token):
-            know_token = (token, "FLOAT")
+            known_token = (token, "FLOAT")
         elif variables.match(token):
-            know_token = (token, "ID")
+            if token in keyword_list:
+                know_token = (token, "keyword")
+            else:
+                know_token = (token, "ID")
         elif token in tokens_identifications[0]:
-            know_token = (token, "OP")
+            known_token = (token, "OP")
         elif token in tokens_identifications[1]:
-            know_token = (token, "COMP")
+            known_token = (token, "COMP")
         elif token in tokens_identifications[2]:
-            know_token = (token, "BRACK")
+            known_token = (token, "BRACK")
         elif token in tokens_identifications[3]:
             know_token = (token, "COMMENT")
         elif token in tokens_identifications[4]:
-            know_token = (token, "CHAR")
+            known_token = (token, "CHAR")
         else:
             has_error = True
             print(f"Token {token} is not valid at line: "+str(index+1))
 
-        if know_token and not has_error:
-            tokens.append(know_token)
+        if known_token and not has_error:
+            tokens.append(known_token)
 
 print(tokens)
