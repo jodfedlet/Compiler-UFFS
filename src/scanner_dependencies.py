@@ -10,8 +10,7 @@ def read_file():
 
 def keyword_list():
     return [
-        'auto','break','case','char','const','continue','default','do','else','enum','float','for','if','extern','double','int','long','register','return','short',
-        'signed','sizeof','static','struct','switch','continue','typedef','union','unsigned','void','print'
+        'for', 'while', 'if', 'else', 'func', 'return', 'input', 'print', 'break', 'while', 'var', 'continue'
     ]
 
 def tokens_identifications():
