@@ -1,4 +1,7 @@
-if a_2 > s2.3 :
-    print ( a )
-else : ds
-   2a = a + 1
+a = 5
+if a_2 > 2.3 {
+    a = a - 1
+} else {
+    a = a + 1
+}
+print ( a )
