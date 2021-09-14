@@ -7,6 +7,7 @@ def scanner():
         tokens = []
         tokens_identification = tokens_identifications()
         for index, line in enumerate(read_file()):
+            token_line = []
             for token in line.split( ):
                 known_token = ()
                 has_error = False
@@ -32,7 +33,8 @@ def scanner():
                     print(f"Token {token} at line: {str(index+1)} is not valid")
 
                 if known_token and not has_error and known_token not in tokens:
-                    tokens.append(known_token)
+                    token_line.append(known_token)
+            tokens.append(token_line)
         return tokens
     except Exception as e:
         print('Something get wrong, retry -->'+ str(e))

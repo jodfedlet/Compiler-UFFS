@@ -5,11 +5,8 @@ float_numbers = re.compile(r'^\d\.\d$')
 variables = re.compile(r'^[a-zA-Z_][a-zA-Z0-9_]*$')
 
 def read_file():
-    all_lines = []
     with open("../materials/input.txt", "r") as f:
-        for line in f:
-            all_lines.append(line)
-    return all_lines
+        return [line for line in f]
 
 def keyword_list():
     return [
