@@ -1,0 +1,146 @@
+[
+     [
+          {
+               "Label": "var",
+               "Line": "1",
+               "Type": "keyword"
+          },
+          {
+               "Label": "a",
+               "Line": "1",
+               "Type": "Id"
+          },
+          {
+               "Label": "=",
+               "Line": "1",
+               "Type": "RELAT(EQUAL)"
+          },
+          {
+               "Label": "5",
+               "Line": "1",
+               "Type": "Num(INT)"
+          }
+     ],
+     [
+          {
+               "Label": "if",
+               "Line": "2",
+               "Type": "keyword"
+          },
+          {
+               "Label": "a_2",
+               "Line": "2",
+               "Type": "Id"
+          },
+          {
+               "Label": ">",
+               "Line": "2",
+               "Type": "RELAT(GT)"
+          },
+          {
+               "Label": "2.3",
+               "Line": "2",
+               "Type": "Num(FL)"
+          },
+          {
+               "Label": ":",
+               "Line": "2",
+               "Type": "DELIM(TWOP)"
+          }
+     ],
+     [
+          {
+               "Label": "a",
+               "Line": "3",
+               "Type": "Id"
+          },
+          {
+               "Label": "=",
+               "Line": "3",
+               "Type": "RELAT(EQUAL)"
+          },
+          {
+               "Label": "a",
+               "Line": "3",
+               "Type": "Id"
+          },
+          {
+               "Label": "-",
+               "Line": "3",
+               "Type": "ARITH(MINUS)"
+          },
+          {
+               "Label": "1",
+               "Line": "3",
+               "Type": "Num(INT)"
+          }
+     ],
+     [
+          {
+               "Label": "else",
+               "Line": "4",
+               "Type": "keyword"
+          },
+          {
+               "Label": ":",
+               "Line": "4",
+               "Type": "DELIM(TWOP)"
+          }
+     ],
+     [
+          {
+               "Label": "a",
+               "Line": "5",
+               "Type": "Id"
+          },
+          {
+               "Label": "=",
+               "Line": "5",
+               "Type": "RELAT(EQUAL)"
+          },
+          {
+               "Label": "a",
+               "Line": "5",
+               "Type": "Id"
+          },
+          {
+               "Label": "+",
+               "Line": "5",
+               "Type": "ARITH(PLUS)"
+          },
+          {
+               "Label": "1",
+               "Line": "5",
+               "Type": "Num(INT)"
+          }
+     ],
+     [
+          {
+               "Label": "print",
+               "Line": "6",
+               "Type": "keyword"
+          },
+          {
+               "Label": "(",
+               "Line": "6",
+               "Type": "DELIM(LPAREN)"
+          },
+          {
+               "Label": "a",
+               "Line": "6",
+               "Type": "Id"
+          },
+          {
+               "Label": ")",
+               "Line": "6",
+               "Type": "DELIM(RPAREN)"
+          }
+     ],
+     [
+          {
+               "Label": "$",
+               "Line": 5,
+               "Type": "EOF"
+          }
+     ]
+]

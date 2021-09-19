@@ -1,8 +1,9 @@
 import re
 
 integers_number = re.compile(r'^\d$')
-float_numbers = re.compile(r'^\d\.\d$')
 variables = re.compile(r'^[a-zA-Z_][a-zA-Z0-9_]*$')
+
+#strings = re.compile(r'')
 
 def read_file():
     with open("../materials/input_code.txt", "r") as f:
@@ -10,45 +11,47 @@ def read_file():
 
 def keyword_list():
     return [
-        'for', 'while', 'if', 'else', 'func', 'return', 'input', 'print', 'break', 'while', 'var', 'continue'
+        'for', 'if', 'else', 'input', 'print', 'break', 'while', 'var', 'continue'
     ]
 
 def tokens_identifications():
     return [
-        # OPERATORS #
+        # OPERATORS ARITH#
         {
             '+' : 'PLUS' ,
             '-': 'MINUS' ,
             '*': 'MULTIPLY',
             '/': 'DIVIDE',
             '%': 'MODULE',
-            '!': 'NOT',
-            '=': 'EQUAL',
         },
 
-        # COMPARATORS #
+        # OPERATORS RELATIONAL#
         {
             '<': 'LT',
             '>': 'GT',
             '<=': 'LTE',
             '>=': 'GTE',
             '==': 'DOUBLEEQUAL',
-            '!=': 'NE',
-            '&&': 'AND',
-            '||': 'OR',
+            '=': 'EQUAL',
         },
 
-        # BRACKETS #
+        # DELIMITER #
         {
             '(': 'LPAREN',
             ')': 'RPAREN',
-            '[': 'LBRACE',
-            ']': 'RBRACE',
-            '{': 'BLOCKSTART',
-            '}': 'BLOCKEND',
+            ':': 'TWOP',
+        },
+
+        #bool
+        {
+            '!=': 'NE',
+            '&&': 'AND',
+            '||': 'OR',
+            '!': 'NOT',
         },
 
         {
             '#': 'COMMENT'
-        }
+        },
     ]
+

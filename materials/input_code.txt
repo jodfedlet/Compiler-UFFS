@@ -1,7 +1,6 @@
-a = 5
-if a_2 > 2.3 {
+var a = 5
+if a_2 > 2.3 :
     a = a - 1
-} else {
+else :
     a = a + 1
-}
 print ( a )
