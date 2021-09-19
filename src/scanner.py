@@ -2,24 +2,37 @@ import json
 from scanner_dependencies import tokens_identifications, keyword_list, read_file,\
     integers_number, variables
 
+from automata import main_automata, afd
+
 def write_tables_of_symbles_as_json(table_symbols):
     f = open("../materials/table_of_symbols.json", "w")
     json.dump(table_symbols, f, indent=5, sort_keys=True)
     f.close()
 
+def get_final_states():
+    return [state for state, value in afd.items() if "*" in value.keys()]
+
 def scanner():
+    final_states = get_final_states()
+    print(afd.items())
+    exit()
     try:
         table_symbols = []
         tokens_identification = tokens_identifications()
         has_error = False
         last_line = 0
+        state = 0
         for index, line in enumerate(read_file()):
             token_line = []
             current_line = str(index+1)
             if not line.startswith("#"):
                 for token in line.split( ):
                     if integers_number.match(token):
+                        #TODO continuar com os estados
+                        if state in final_states:
+                            print(state)
                         known_token = {"Label":token,"Type":"Number","Line":current_line}
+                        break
                     elif variables.match(token):
                         if token in keyword_list():
                             known_token = {"Label": token, "Type": "keyword", "Line": current_line}
@@ -52,3 +65,5 @@ def scanner():
 
     except Exception as e:
         print('Something get wrong, retry -->'+ str(e))
+
+main_automata()
