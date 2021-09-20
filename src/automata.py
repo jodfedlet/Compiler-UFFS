@@ -1,3 +1,6 @@
+'''Copyright 
+ Este arquivo é de terceiro(eassisv) modificado conforme a minha necessidade
+'''
 from re import findall as find, I
 
 afd = {}
