@@ -3,7 +3,7 @@ import re
 integers_number = re.compile(r'^\d$')
 variables = re.compile(r'^[a-zA-Z_][a-zA-Z0-9_]*$')
 
-#strings = re.compile(r'')
+strings = re.compile(r'["][\w\s]+["]')
 
 def read_file():
     with open("../materials/input_code.txt", "r") as f:
