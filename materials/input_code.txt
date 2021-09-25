@@ -1,5 +1,6 @@
-var a = 5
-if a_2 > 2.3 :
+a = 5
+b = "string"
+if a_2 > 2 :
     a = a - 1
 else :
     a = a + 1

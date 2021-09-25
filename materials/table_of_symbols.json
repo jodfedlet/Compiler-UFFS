@@ -1,11 +1,6 @@
 [
      [
           {
-               "Label": "var",
-               "Line": "1",
-               "Type": "keyword"
-          },
-          {
                "Label": "a",
                "Line": "1",
                "Type": "Id"
@@ -16,130 +11,151 @@
                "Type": "RELAT(EQUAL)"
           },
           {
-               "Label": "5",
-               "Line": "1",
-               "Type": "Num(INT)"
+               "line": "1",
+               "state": -1,
+               "token": "",
+               "value": "5"
+          }
+     ],
+     [
+          {
+               "Label": "b",
+               "Line": "2",
+               "Type": "Id"
+          },
+          {
+               "Label": "=",
+               "Line": "2",
+               "Type": "RELAT(EQUAL)"
+          },
+          {
+               "Label": "\"string\"",
+               "Line": "2",
+               "Type": "String"
           }
      ],
      [
           {
                "Label": "if",
-               "Line": "2",
+               "Line": "3",
                "Type": "keyword"
           },
           {
                "Label": "a_2",
-               "Line": "2",
+               "Line": "3",
                "Type": "Id"
           },
           {
                "Label": ">",
-               "Line": "2",
+               "Line": "3",
                "Type": "RELAT(GT)"
           },
           {
-               "Label": "2.3",
-               "Line": "2",
-               "Type": "Num(FL)"
+               "line": "3",
+               "state": -1,
+               "token": "",
+               "value": "2"
           },
           {
                "Label": ":",
-               "Line": "2",
+               "Line": "3",
                "Type": "DELIM(TWOP)"
           }
      ],
      [
           {
                "Label": "a",
-               "Line": "3",
+               "Line": "4",
                "Type": "Id"
           },
           {
                "Label": "=",
-               "Line": "3",
+               "Line": "4",
                "Type": "RELAT(EQUAL)"
           },
           {
                "Label": "a",
-               "Line": "3",
+               "Line": "4",
                "Type": "Id"
           },
           {
                "Label": "-",
-               "Line": "3",
+               "Line": "4",
                "Type": "ARITH(MINUS)"
           },
           {
-               "Label": "1",
-               "Line": "3",
-               "Type": "Num(INT)"
+               "line": "4",
+               "state": -1,
+               "token": "",
+               "value": "1"
           }
      ],
      [
           {
                "Label": "else",
-               "Line": "4",
+               "Line": "5",
                "Type": "keyword"
           },
           {
                "Label": ":",
-               "Line": "4",
+               "Line": "5",
                "Type": "DELIM(TWOP)"
           }
      ],
      [
           {
                "Label": "a",
-               "Line": "5",
+               "Line": "6",
                "Type": "Id"
           },
           {
                "Label": "=",
-               "Line": "5",
+               "Line": "6",
                "Type": "RELAT(EQUAL)"
           },
           {
                "Label": "a",
-               "Line": "5",
+               "Line": "6",
                "Type": "Id"
           },
           {
                "Label": "+",
-               "Line": "5",
+               "Line": "6",
                "Type": "ARITH(PLUS)"
           },
           {
-               "Label": "1",
-               "Line": "5",
-               "Type": "Num(INT)"
+               "line": "6",
+               "state": -1,
+               "token": "",
+               "value": "1"
           }
      ],
      [
           {
                "Label": "print",
-               "Line": "6",
+               "Line": "7",
                "Type": "keyword"
           },
           {
                "Label": "(",
-               "Line": "6",
+               "Line": "7",
                "Type": "DELIM(LPAREN)"
           },
           {
                "Label": "a",
-               "Line": "6",
+               "Line": "7",
                "Type": "Id"
           },
           {
                "Label": ")",
-               "Line": "6",
+               "Line": "7",
                "Type": "DELIM(RPAREN)"
           }
      ],
      [
           {
                "Label": "$",
-               "Line": 5,
+               "Line": 6,
                "Type": "EOF"
           }
      ]
