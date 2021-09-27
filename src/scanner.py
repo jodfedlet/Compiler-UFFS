@@ -17,26 +17,13 @@ def get_final_states():
 
 def verify_token(token):
     state = 0
-    #print('token: "{}"'.format(token))
     for char in token:
         try:
             state = afd[state][char]
         except KeyError:
             return -1, ""
 
-    #try:
-   # token_to_state = addState()
-    return state
-
-   # print(token_to_state[afd[state]["is_terminal"]])
-    #exit()
-    # return (
-    #     token_to_state[afd[state]["is_terminal"]],
-    #     afd[state]["is_terminal"],
-    # )
-    # except KeyError:
-    #     return -1, ""
-
+    return ''.join(state)
 
 def record_on_table(word, line, token_line):
     state = verify_token(word)
