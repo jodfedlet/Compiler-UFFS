@@ -5,7 +5,7 @@ from scanner_dependencies import tokens_identifications, keyword_list, read_file
 from automata import main_automata, afd
 
 token_to_state = {}
-
+current_state = 0
 def write_tables_of_symbles_as_json(table_symbols):
     f = open("../materials/table_of_symbols.json", "w")
     json.dump(table_symbols, f, indent=5, sort_keys=True)
@@ -15,88 +15,82 @@ def get_final_states():
     return [state for state, value in afd.items() if "*" in value.keys()]
 
 
-def verify_token(token):
-    state = 0
+def get_state(token):
+    #print("Token: "+token)
+    global current_state
+    all_states = list(afd.keys())
+    final_states = get_final_states()
     for char in token:
+        #print("Char: "+char)
         try:
-            state = afd[state][char]
+            print("Antes do: "+str(char))
+            print(current_state)
+            print(final_states)
+            # if current_state in final_states:
+            #     print("Aqui: "+str(char))
+            current_state = afd[current_state][char]
+            # else:
+            #    current_state = all_states[all_states.index(current_state) + 1]  
+            # print(state) 
+            #print("Depois do: "+str(char)) 
         except KeyError:
-            return -1, ""
+            return [-1]
+    
+    #current_state = current_state.replace("[","").replace("]","")
+    #print(current_state)
+    #TODO fix TypeError: unhashable type: 'list' and return state by token
+    try:
+        iter(current_state)    
+        return ' '.join(str(etat) for etat in current_state)
+    except:
+        return current_state
+    #return ' '.join(str(etat) for etat in list(current_state))
 
-    return ''.join(state)
-
-def record_on_table(word, line, token_line):
-    state = verify_token(word)
-    token_line.append({"state": state, "token": word, "value": word, "line": line})
-    print(token_line)
-    exit()
-
-def addState():
-    f = open("automata.json", "r")
-    automata = json.load(f)
-    f.close()
-    for state in automata:
-       # try:
-       print("automata.json")
-       #print(automata[state])
-       #token_to_state.setdefault(automata[state]["is_terminal"], state)
-        # except KeyError:
-        #     continue
-
-    #print(token_to_state)
-    exit()
+def add_token_in_token_line(word, line, token_line, tk_type):
+    token_line.append({"state": get_state(word), "token": word, "type": tk_type,  "line": line})
+    return token_line
 
 def scanner():
-    final_states = get_final_states()
-    #dict_val =[vet for vet in [a for a in afd.values()]]
-
-   # print(dict_val)
-    #print(dict_val_w)
-    #exit()
-    #try:
     table_symbols = []
     tokens_identification = tokens_identifications()
     has_error = False
     last_line = 0
-    state = 0
+    #state = 0
     for index, line in enumerate(read_file()):
         token_line = []
         current_line = str(index+1)
         if not line.startswith("#"):
             for token in line.split( ):
+                token_type = "";
                 if integers_number.match(token):
-                    #TODO continuar com os estados
-                    # if state in final_states:
-                    #     print(state)
-                    known_token = {"Label":token,"Type":"Number","Line":current_line}
-                    known_token = record_on_table(token, current_line, token_line)
-                    # print(known_token)
-                    # exit()
+                    token_type = "Number"
                 elif strings.match(token):
-                    known_token = {"Label": token, "Type": "String", "Line": current_line}
+                    token_type = "String"
                 elif variables.match(token):
                     if token in keyword_list():
-                        known_token = {"Label": token, "Type": "keyword", "Line": current_line}
+                        token_type = "Keyword"
                     else:
-                        record_on_table(token, current_line, token_line)
-                       # known_token = {"Label": token, "Type": "Id", "Line": current_line}
+                        token_type = "Id"
                 elif token in tokens_identification[0]:
-                    known_token = {"Label": token, "Type": f"ARITH({tokens_identification[0][token]})", "Line": current_line}
+                    token_type = f"ARITH({tokens_identification[0][token]})"
                 elif token in tokens_identification[1]:
-                    known_token = {"Label": token, "Type": f"RELAT({tokens_identification[1][token]})", "Line": current_line}
+                    token_type = f"RELAT({tokens_identification[1][token]})"
                 elif token in tokens_identification[2]:
-                    known_token = {"Label": token, "Type": f"DELIM({tokens_identification[2][token]})", "Line": current_line}
+                    token_type = f"DELIM({tokens_identification[2][token]})"
                 elif token in tokens_identification[3]:
-                    known_token = {"Label": token, "Type": f"BOOL({tokens_identification[3][token]})", "Line": current_line}
+                    token_type = f"BOOL({tokens_identification[3][token]})"
                 elif token in tokens_identification[4]:
-                    known_token = {"Label": token, "Type": "COMMENT", "Line": current_line}
+                    token_type = "COMMENT"
                 else:
                     has_error = True
-                    known_token = {"Label": token, "Type": "Error", "Line": current_line}
+                    token_line.append({"state": -1, "token": token, "type": "Error",  "line": current_line})
                     print(f"Token {token} at line: {current_line} is not valid")
-
-                if known_token:
-                    token_line.append(known_token)
+                if not has_error and token not in table_symbols:  
+                    token_line = add_token_in_token_line(token, current_line, token_line,token_type)
+                    print(token_line)
+                
+                # if token_line:
+                #     token_line.append(known_token)      
             table_symbols.append(token_line)
         last_line = index
     table_symbols.append([{"Label": "$", "Type": "EOF", "Line": last_line}])

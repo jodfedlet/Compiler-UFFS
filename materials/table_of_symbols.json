@@ -1,161 +1,206 @@
 [
      [
           {
-               "Label": "a",
-               "Line": "1",
-               "Type": "Id"
-          },
-          {
-               "Label": "=",
-               "Line": "1",
-               "Type": "RELAT(EQUAL)"
+               "line": "1",
+               "state": 1,
+               "token": "a",
+               "type": "Id"
           },
           {
                "line": "1",
-               "state": -1,
-               "token": "",
-               "value": "5"
+               "state": 2,
+               "token": "=",
+               "type": "RELAT(EQUAL)"
+          },
+          {
+               "line": "1",
+               "state": 3,
+               "token": "5",
+               "type": "Number"
           }
      ],
      [
           {
-               "Label": "b",
-               "Line": "2",
-               "Type": "Id"
+               "line": "2",
+               "state": [
+                    -1
+               ],
+               "token": "if",
+               "type": "Keyword"
           },
           {
-               "Label": "=",
-               "Line": "2",
-               "Type": "RELAT(EQUAL)"
+               "line": "2",
+               "state": [
+                    -1
+               ],
+               "token": "a_2",
+               "type": "Id"
           },
           {
-               "Label": "\"string\"",
-               "Line": "2",
-               "Type": "String"
+               "line": "2",
+               "state": [
+                    -1
+               ],
+               "token": ">",
+               "type": "RELAT(GT)"
+          },
+          {
+               "line": "2",
+               "state": [
+                    -1
+               ],
+               "token": "2",
+               "type": "Number"
+          },
+          {
+               "line": "2",
+               "state": [
+                    -1
+               ],
+               "token": ":",
+               "type": "DELIM(TWOP)"
           }
      ],
      [
           {
-               "Label": "if",
-               "Line": "3",
-               "Type": "keyword"
-          },
-          {
-               "Label": "a_2",
-               "Line": "3",
-               "Type": "Id"
-          },
-          {
-               "Label": ">",
-               "Line": "3",
-               "Type": "RELAT(GT)"
+               "line": "3",
+               "state": [
+                    -1
+               ],
+               "token": "a",
+               "type": "Id"
           },
           {
                "line": "3",
-               "state": -1,
-               "token": "",
-               "value": "2"
+               "state": [
+                    -1
+               ],
+               "token": "=",
+               "type": "RELAT(EQUAL)"
           },
           {
-               "Label": ":",
-               "Line": "3",
-               "Type": "DELIM(TWOP)"
+               "line": "3",
+               "state": [
+                    -1
+               ],
+               "token": "a",
+               "type": "Id"
+          },
+          {
+               "line": "3",
+               "state": [
+                    -1
+               ],
+               "token": "-",
+               "type": "ARITH(MINUS)"
+          },
+          {
+               "line": "3",
+               "state": [
+                    -1
+               ],
+               "token": "1",
+               "type": "Number"
           }
      ],
      [
           {
-               "Label": "a",
-               "Line": "4",
-               "Type": "Id"
-          },
-          {
-               "Label": "=",
-               "Line": "4",
-               "Type": "RELAT(EQUAL)"
-          },
-          {
-               "Label": "a",
-               "Line": "4",
-               "Type": "Id"
-          },
-          {
-               "Label": "-",
-               "Line": "4",
-               "Type": "ARITH(MINUS)"
+               "line": "4",
+               "state": [
+                    -1
+               ],
+               "token": "else",
+               "type": "Keyword"
           },
           {
                "line": "4",
-               "state": -1,
-               "token": "",
-               "value": "1"
+               "state": [
+                    -1
+               ],
+               "token": ":",
+               "type": "DELIM(TWOP)"
           }
      ],
      [
           {
-               "Label": "else",
-               "Line": "5",
-               "Type": "keyword"
+               "line": "5",
+               "state": [
+                    -1
+               ],
+               "token": "a",
+               "type": "Id"
           },
           {
-               "Label": ":",
-               "Line": "5",
-               "Type": "DELIM(TWOP)"
+               "line": "5",
+               "state": [
+                    -1
+               ],
+               "token": "=",
+               "type": "RELAT(EQUAL)"
+          },
+          {
+               "line": "5",
+               "state": [
+                    -1
+               ],
+               "token": "a",
+               "type": "Id"
+          },
+          {
+               "line": "5",
+               "state": [
+                    -1
+               ],
+               "token": "+",
+               "type": "ARITH(PLUS)"
+          },
+          {
+               "line": "5",
+               "state": [
+                    -1
+               ],
+               "token": "1",
+               "type": "Number"
           }
      ],
      [
           {
-               "Label": "a",
-               "Line": "6",
-               "Type": "Id"
-          },
-          {
-               "Label": "=",
-               "Line": "6",
-               "Type": "RELAT(EQUAL)"
-          },
-          {
-               "Label": "a",
-               "Line": "6",
-               "Type": "Id"
-          },
-          {
-               "Label": "+",
-               "Line": "6",
-               "Type": "ARITH(PLUS)"
+               "line": "6",
+               "state": [
+                    -1
+               ],
+               "token": "print",
+               "type": "Keyword"
           },
           {
                "line": "6",
-               "state": -1,
-               "token": "",
-               "value": "1"
-          }
-     ],
-     [
-          {
-               "Label": "print",
-               "Line": "7",
-               "Type": "keyword"
+               "state": [
+                    -1
+               ],
+               "token": "(",
+               "type": "DELIM(LPAREN)"
           },
           {
-               "Label": "(",
-               "Line": "7",
-               "Type": "DELIM(LPAREN)"
+               "line": "6",
+               "state": [
+                    -1
+               ],
+               "token": "a",
+               "type": "Id"
           },
           {
-               "Label": "a",
-               "Line": "7",
-               "Type": "Id"
-          },
-          {
-               "Label": ")",
-               "Line": "7",
-               "Type": "DELIM(RPAREN)"
+               "line": "6",
+               "state": [
+                    -1
+               ],
+               "token": ")",
+               "type": "DELIM(RPAREN)"
           }
      ],
      [
           {
                "Label": "$",
-               "Line": 6,
+               "Line": 5,
                "Type": "EOF"
           }
      ]

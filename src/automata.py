@@ -238,6 +238,7 @@ def main_automata():
             gramatica.append(line)
     if gramatica:
         gerarAfndGramatica(afd, gramatica, alfabeto)
+        
     eliminarEpsilonTransicoes(afd)
     determinizar(afd)
     eliminarInalcancaveis(afd)
