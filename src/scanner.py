@@ -39,11 +39,9 @@ def get_state(token):
     #current_state = current_state.replace("[","").replace("]","")
     #print(current_state)
     #TODO fix TypeError: unhashable type: 'list' and return state by token
-    try:
-        iter(current_state)    
+    if isinstance(current_state, list) 
         return ' '.join(str(etat) for etat in current_state)
-    except:
-        return current_state
+    return current_state
     #return ' '.join(str(etat) for etat in list(current_state))
 
 def add_token_in_token_line(word, line, token_line, tk_type):
