@@ -85,17 +85,13 @@ def scanner():
                 else:
                     has_error = True
                     token_line.append({"state": -1, "token": token, "type": "Error",  "line": current_line})
-                    print(f"Token {token} at line: {current_line} is not valid")
+                    print(f"(Lexic error) --> Token {token} at line: {current_line} is not valid")
                 if not has_error and token not in table_symbols:  
                     token_line, ribbon = add_token_in_token_line(token, current_line, token_line,token_type, fita)
                     if ribbon:
-                        fita.append(ribbon)
-                    
-                # if token_line:
-                #     token_line.append(known_token)      
+                        fita.append(ribbon)   
             table_symbols.append(token_line)
-
-    table_symbols.append([{"Label": "$", "Type": "EOF", "Line": count_line+1}])
+    table_symbols.append([{"state": -1, "token": "$", "type": "EOF",  "line": current_line+1}])
     print(table_symbols)
     if has_error:
         exit()
