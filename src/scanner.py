@@ -4,9 +4,6 @@ from scanner_dependencies import tokens_identifications, keyword_list, read_file
 
 from automata import main_automata, afd
 
-token_to_state = {}
-current_state = 0
-fita = {}
 def write_tables_of_symbles_as_json(table_symbols):
     f = open("../materials/table_of_symbols.json", "w")
     json.dump(table_symbols, f, indent=5, sort_keys=True)
@@ -42,13 +39,13 @@ def get_state(token):
         return ' '.join(str(etat) for etat in current_state)
     return current_state
 
-def add_token_in_token_line(word, line, token_line, tk_type):
+def add_token_in_token_line(word, line, token_line, tk_type, ribbon):
     final_states = get_final_states()
     state = get_state(word)
     token_line.append({"state": state, "token": word, "type": tk_type,  "line": line})
-    if state in final_states:
-        fita.append({"state": state, "token": word, "line": line})
-    return token_line
+    if int(state) in final_states:
+        ribbon.append({"state": state, "token": word, "line": line})
+    return (token_line, ribbon)
 
 def scanner():
     table_symbols = []
@@ -56,6 +53,7 @@ def scanner():
     has_error = False
     count_line = 0
     #state = 0
+    fita = []
     for index, line in enumerate(read_file()):
         token_line = []
         current_line = str(index+1)
@@ -89,11 +87,14 @@ def scanner():
                     token_line.append({"state": -1, "token": token, "type": "Error",  "line": current_line})
                     print(f"Token {token} at line: {current_line} is not valid")
                 if not has_error and token not in table_symbols:  
-                    token_line = add_token_in_token_line(token, current_line, token_line,token_type)
-                
+                    token_line, ribbon = add_token_in_token_line(token, current_line, token_line,token_type, fita)
+                    if ribbon:
+                        fita.append(ribbon)
+                    
                 # if token_line:
                 #     token_line.append(known_token)      
             table_symbols.append(token_line)
+
     table_symbols.append([{"Label": "$", "Type": "EOF", "Line": count_line+1}])
     print(table_symbols)
     if has_error:
