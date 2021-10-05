@@ -6,6 +6,7 @@ from automata import main_automata, afd
 
 token_to_state = {}
 current_state = 0
+fita = {}
 def write_tables_of_symbles_as_json(table_symbols):
     f = open("../materials/table_of_symbols.json", "w")
     json.dump(table_symbols, f, indent=5, sort_keys=True)
@@ -17,46 +18,50 @@ def get_final_states():
 
 def get_state(token):
     #print("Token: "+token)
-    global current_state
+    current_state = 0
     all_states = list(afd.keys())
-    final_states = get_final_states()
+    
     for char in token:
         #print("Char: "+char)
         try:
-            print("Antes do: "+str(char))
-            print(current_state)
-            print(final_states)
-            # if current_state in final_states:
-            #     print("Aqui: "+str(char))
-            current_state = afd[current_state][char]
-            # else:
-            #    current_state = all_states[all_states.index(current_state) + 1]  
-            # print(state) 
-            #print("Depois do: "+str(char)) 
+            found = False
+            for a, valores in afd.items():
+                for j in valores:
+                    if char == j:
+                        found = True
+                        current_state = valores[j]
+                        break 
+                if found: break 
+                else: current_state = -1
         except KeyError:
-            return [-1]
-    
-    #current_state = current_state.replace("[","").replace("]","")
-    #print(current_state)
-    #TODO fix TypeError: unhashable type: 'list' and return state by token
-    if isinstance(current_state, list) 
+            return -1
+        
+    #current_state = all_states[all_states.index(current_state) + 1]    
+
+    if isinstance(current_state, list):
         return ' '.join(str(etat) for etat in current_state)
     return current_state
-    #return ' '.join(str(etat) for etat in list(current_state))
 
 def add_token_in_token_line(word, line, token_line, tk_type):
-    token_line.append({"state": get_state(word), "token": word, "type": tk_type,  "line": line})
+    final_states = get_final_states()
+    state = get_state(word)
+    token_line.append({"state": state, "token": word, "type": tk_type,  "line": line})
+    if state in final_states:
+        fita.append({"state": state, "token": word, "line": line})
     return token_line
 
 def scanner():
     table_symbols = []
     tokens_identification = tokens_identifications()
     has_error = False
-    last_line = 0
+    count_line = 0
     #state = 0
     for index, line in enumerate(read_file()):
         token_line = []
         current_line = str(index+1)
+        if line != "\n":
+            count_line += 1
+            
         if not line.startswith("#"):
             for token in line.split( ):
                 token_type = "";
@@ -85,13 +90,12 @@ def scanner():
                     print(f"Token {token} at line: {current_line} is not valid")
                 if not has_error and token not in table_symbols:  
                     token_line = add_token_in_token_line(token, current_line, token_line,token_type)
-                    print(token_line)
                 
                 # if token_line:
                 #     token_line.append(known_token)      
             table_symbols.append(token_line)
-        last_line = index
-    table_symbols.append([{"Label": "$", "Type": "EOF", "Line": last_line}])
+    table_symbols.append([{"Label": "$", "Type": "EOF", "Line": count_line+1}])
+    print(table_symbols)
     if has_error:
         exit()
     write_tables_of_symbles_as_json(table_symbols)

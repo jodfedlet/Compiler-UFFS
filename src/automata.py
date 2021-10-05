@@ -221,6 +221,27 @@ def gerarAfndGramatica(afnd, gramatica, alfabeto):
                     mp.update({term: [rg]})
 
     unirAutomatos(afnd, aTemp)
+    
+def exibirAutomatoDeterministico(afnd, alfabeto):
+    alfabeto.sort()
+    print('     {}'.format('-----'*len(alfabeto)))
+    print('     |', end='')
+    for i in alfabeto:
+        print('  {:2}|'.format(i), end='')
+    print('\n     {}'.format('-----'*len(alfabeto)))
+    for i in afnd.keys():
+        if '*' in afnd[i].keys():
+            print('*', end='')
+        else:
+            print(' ', end='')
+        print('{:3}:|'.format(i), end='')
+        for j in alfabeto:
+            if j in afnd[i].keys():
+                print(' {:2} |'.format(afnd[i][j][0]), end='')
+            else:
+                print(' {:2} |'.format('-'), end='')
+        print('')
+    #print('     {}'.format('-----'*len(alfabeto)))    
 
 def read_input_automata():
     with open("./entrada.in", "r") as f:
@@ -243,3 +264,5 @@ def main_automata():
     determinizar(afd)
     eliminarInalcancaveis(afd)
     eliminarInuteis(afd)
+    # exibirAutomatoDeterministico(afd, alfabeto)
+    # exit()
