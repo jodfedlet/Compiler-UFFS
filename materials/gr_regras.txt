@@ -1,0 +1,8 @@
+"Start Symbol" = <S>
+<S> ::= <STATEMENT> | <SHOW>
+<STATEMENT> ::= <ASSIGNMENT> | <CONDITIONAL>
+<ASSIGNMENT> ::= <ID> = <EXPR> 
+<CONDITIONAL> ::= if <EXPR> { <S> } | if <EXPR> { <S> } else { <S> }
+<SHOW> ::= print ( <ID> ) | print ( <STRING> )
+<EXPR> ::= <ID> | <NUMBER> | <OP> | (<EXPR>) | <EXPR> <OP> <EXPR>
+<OP> ::= + | - | * | / | = | < | <= | > | >=
