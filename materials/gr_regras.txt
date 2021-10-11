@@ -7,9 +7,9 @@
 <SHOW> ::= 'print (' <ID> ')'
 <ID> ::= <VARIABLE> <IDP> 
 <IDP> ::= <NUMBER> | '_' <NUMBER> | <>
-<VARIABLE> ::= a <LETTER> | b <LETTER> | c <LETTER> | d <LETTER> | <>
+<VARIABLE> ::= a <LETTER> | b <LETTER> | c <LETTER> | d <LETTER>
 <LETTER> ::= a <LETTER> | b <LETTER> | c <LETTER> | d <LETTER> | <>   
-<NUMBER> ::= 1 <NUM> | 2 <NUM> | 3 <NUM> | 4 <NUM> | <>
+<NUMBER> ::= 1 <NUM> | 2 <NUM> | 3 <NUM> | 4 <NUM>
 <NUM> ::= 1 <NUM> | 2 <NUM> | 3 <NUM> | 4 <NUM> | <>
 <LOOP> ::= 'while' <EXPR> '{' <S> '}'
 <OP> ::= '+' | '-' | '*' | '/' | '=' | '<' | '<=' | '>' | '>=' | '&&' | '||' | '!=' | '!'
