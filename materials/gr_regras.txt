@@ -5,10 +5,12 @@
 <CONDITIONAL> ::=  'if' <EXPR>  '{' <S>  '}' <CONDITIONALP>
 <CONDITIONALP> ::=  'else' '{' <S> '}' | <>
 <SHOW> ::= 'print (' <ID> ')'
-<ID> ::= <LETTER> <IDP> 
+<ID> ::= <VARIABLE> <IDP> 
 <IDP> ::= <NUMBER> | '_' <NUMBER> | <>
-<LETTER> ::= a | b | c | d | e | f | g | h | i | j | k | l | m | n | o | p | q | r | s | t | u | v | w | x | y | z   
-<NUMBER> ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+<VARIABLE> ::= a <LETTER> | b <LETTER> | c <LETTER> | d <LETTER> | <>
+<LETTER> ::= a <LETTER> | b <LETTER> | c <LETTER> | d <LETTER> | <>   
+<NUMBER> ::= 1 <NUM> | 2 <NUM> | 3 <NUM> | 4 <NUM> | <>
+<NUM> ::= 1 <NUM> | 2 <NUM> | 3 <NUM> | 4 <NUM> | <>
 <LOOP> ::= 'while' <EXPR> '{' <S> '}'
 <OP> ::= '+' | '-' | '*' | '/' | '=' | '<' | '<=' | '>' | '>=' 
 <EXPR> ::= <ID> <EXPRP> | <NUMBER> <EXPRP> | <OP> <EXPRP> | '(' <EXPR> <EXPRP> ')' 
