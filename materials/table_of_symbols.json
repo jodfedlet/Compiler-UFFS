@@ -47,8 +47,8 @@
           {
                "line": "2",
                "state": -1,
-               "token": ":",
-               "type": "DELIM(TWOP)"
+               "token": "{",
+               "type": "DELIM(LBRACK)"
           }
      ],
      [
@@ -86,44 +86,52 @@
      [
           {
                "line": "4",
-               "state": "4",
-               "token": "else",
-               "type": "Keyword"
-          },
-          {
-               "line": "4",
                "state": -1,
-               "token": ":",
-               "type": "DELIM(TWOP)"
+               "token": "}",
+               "type": "DELIM(RBRACK)"
           }
      ],
      [
           {
                "line": "5",
+               "state": "4",
+               "token": "else",
+               "type": "Keyword"
+          },
+          {
+               "line": "5",
+               "state": -1,
+               "token": "{",
+               "type": "DELIM(LBRACK)"
+          }
+     ],
+     [
+          {
+               "line": "6",
                "state": "14",
                "token": "a",
                "type": "Id"
           },
           {
-               "line": "5",
+               "line": "6",
                "state": -1,
                "token": "=",
                "type": "RELAT(EQUAL)"
           },
           {
-               "line": "5",
+               "line": "6",
                "state": "14",
                "token": "a",
                "type": "Id"
           },
           {
-               "line": "5",
+               "line": "6",
                "state": -1,
                "token": "+",
                "type": "ARITH(PLUS)"
           },
           {
-               "line": "5",
+               "line": "6",
                "state": -1,
                "token": "1",
                "type": "Number"
@@ -131,25 +139,33 @@
      ],
      [
           {
-               "line": "6",
+               "line": "7",
+               "state": -1,
+               "token": "}",
+               "type": "DELIM(RBRACK)"
+          }
+     ],
+     [
+          {
+               "line": "8",
                "state": -1,
                "token": "print",
                "type": "Keyword"
           },
           {
-               "line": "6",
+               "line": "8",
                "state": -1,
                "token": "(",
                "type": "DELIM(LPAREN)"
           },
           {
-               "line": "6",
+               "line": "8",
                "state": "14",
                "token": "a",
                "type": "Id"
           },
           {
-               "line": "6",
+               "line": "8",
                "state": -1,
                "token": ")",
                "type": "DELIM(RPAREN)"
@@ -157,9 +173,10 @@
      ],
      [
           {
-               "Label": "$",
-               "Line": 7,
-               "Type": "EOF"
+               "line": "81",
+               "state": -1,
+               "token": "$",
+               "type": "EOF"
           }
      ]
 ]

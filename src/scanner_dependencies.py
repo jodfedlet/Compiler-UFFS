@@ -39,7 +39,8 @@ def tokens_identifications():
         {
             '(': 'LPAREN',
             ')': 'RPAREN',
-            ':': 'TWOP',
+            '{': 'LBRACK',
+            '}': 'RBRACK',
         },
 
         #bool
