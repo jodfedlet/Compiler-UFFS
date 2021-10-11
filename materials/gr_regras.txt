@@ -1,8 +1,12 @@
 "Start Symbol" = <S>
 <S> ::= <STATEMENT> | <SHOW>
-<STATEMENT> ::= <ASSIGNMENT> | <CONDITIONAL>
+<STATEMENT> ::= <ASSIGNMENT> | <CONDITIONAL> | <LOOP>
 <ASSIGNMENT> ::= <ID> = <EXPR> 
-<CONDITIONAL> ::= if <EXPR> { <S> } | if <EXPR> { <S> } else { <S> }
-<SHOW> ::= print ( <ID> ) | print ( <STRING> )
-<EXPR> ::= <ID> | <NUMBER> | <OP> | (<EXPR>) | <EXPR> <OP> <EXPR>
+<CONDITIONAL> ::= if <EXPR> { <S> } <CONDITIONALP>
+<CONDITIONALP> ::= else { <S> } | <>
+<SHOW> ::= print ( <SHOWP> )
+<SHOWP> ::= <ID> | <STRING>
+<LOOP> ::= while <EXPR> { <S> }
 <OP> ::= + | - | * | / | = | < | <= | > | >=
+<EXPR> ::= <ID> <EXPRP> | <NUMBER> <EXPRP> | <OP> <EXPRP> | (<EXPR> <EXPRP>) 
+<EXPRP> ::= <OP> <EXPR> <EXPRP> | <>
