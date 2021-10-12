@@ -521,12 +521,14 @@ class Analise(Inuteis):
                             state = automata[state][char][0]
                         except KeyError:
                             state = -1
-                            has_error = True
-                            print(f"(Lexical error) --> Token {str(word+char)} at line: {current_line} is not valid")
                         if char != ' ':
                             word += char
 
 
+            for error in symbols_table:
+                if error['State'] == -1:
+                    print(f"(Lexical error) --> Token {error['Line']} at line: {error['Label']} is not valid")
+                    has_error = True
             if has_error: exit()
 
             for symbol in symbols_table:
