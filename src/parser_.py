@@ -3,7 +3,7 @@ from scanner import scanner
 import xml.etree.ElementTree as ET
 
 
-def parser():
+def parser(table_symb):
     tree = ET.parse('../materials/lalr_table.xml')
     root = tree.getroot()
 
@@ -13,8 +13,6 @@ def parser():
     print(productions)
 
 
-
-scanner()
-parser()
+parser(scanner())
 #res_parser = parser(scanner())
 
