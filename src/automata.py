@@ -244,7 +244,7 @@ def exibirAutomatoDeterministico(afnd, alfabeto):
     #print('     {}'.format('-----'*len(alfabeto)))    
 
 def read_input_automata():
-    with open("./entrada.in", "r") as f:
+    with open("../materials/input_tokens_and_GR.txt", "r") as f:
         return [line for line in f]
 
 def main_automata():

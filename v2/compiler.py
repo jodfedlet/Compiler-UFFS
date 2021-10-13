@@ -533,13 +533,102 @@ class Analise(Inuteis):
 
             for symbol in symbols_table:
                 ribbon.append(symbol['State'])
-            ribbon.append(str(0))
+            ribbon.append(0)
             
             return (symbols_table, ribbon)
         
         def parser(s_table, fita):
-            print(s_table)
+            tree = ET.parse('./config/parser.xml')
+            root = tree.getroot()
+
+            symbols = [ {'Name':s.get('Name'), 'Index':s.get('Index'), 'Type':s.get('Type')} for s in root.iter('Symbol')]  
+            # productions = [ {'Index':s.get('Index'), 'SymbolCount':s.get('SymbolCount'), 'NonTerminalIndex':s.get('NonTerminalIndex')} for s in root.iter('Production')]    
+            
+            # print(s_table)
+            # exit()
+            # lalr_table = []
+            # for lalr_state in root.iter('LALRState'):
+            #     lalr_table.append({})
+            #     for lalr_action in lalr_state:
+            #         lalr_table[int(lalr_state.get('Index'))][lalr_action.get('SymbolIndex')] = {'Action':lalr_action.get('Action'), 'Value':lalr_action.get('Value')}
         
+            print (s_table)
+            print('\n')
+            
+            for symbol in symbols:
+                symbol_name = symbol['Name']
+                symbol_state = symbol['Index']
+                for x in s_table:
+                    # print(x['Label'][0], x['Label'][-1])
+                    #print(x['Label'][0])
+                    if x['Label'].lstrip() == symbol_name:
+                        x['State'] = symbol_state 
+                    elif symbol_name == 'ID' or symbol_name == 'NUMBER':
+                        x['State'] = symbol_state
+                        #print('eleleleleifff  1')
+                    # elif x['Label'][0] == '0' and symbol_name == '0constant':
+                    #     x['State'] = symbol_state  
+                    #     print('eleleleleifff  2')
+            #exit()        
+            print(s_table)
+            exit()            
+            stack = [0]
+            erro = 0
+            Rc = 0
+            controle = 0
+            
+            for f in fita:
+                while True:
+                    if erro == 1 or erro == -1:
+                        break
+                    
+                    for lalr_state in root.iter('LALRState'):
+                        if stack[-1] == int(lalr_state.get('Index')):
+                            for lalr_action in lalr_state:
+                                #print(f, lalr_action.get('SymbolIndex'))
+                                if int(f) != int(lalr_action.get('SymbolIndex')): break
+                                else:
+                                    action = lalr_action.get('Action')
+                                    value = lalr_action.get('Value')
+                                    if action == '1':
+                                        stack.append(f)
+                                        stack.append(value)
+                                    elif action == '2':
+                                        controle = 1
+                                        for prod in root.iter('Production'):
+                                            if prod.attrib['Index'] == coluna.attrib['Value']:
+                                                Rx = 2 * int(prod.attrib['SymbolCount'])
+                                                break
+                                        if len(pilha) <= Rx:
+                                            erro = 1
+                                            break
+                                        for remove in range(Rx):
+                                            stack.pop()
+                                            print("\nRedução 1: ", stack)     #DEBUG REDUÇÃO
+                                        for linhaR in root.iter('LALRState'):
+                                            if linhaR.attrib['Index'] == str(pilha[-1]):
+                                                for colunaR in linhaR:
+                                                    if colunaR.attrib['SymbolIndex'] == prod.attrib['NonTerminalIndex']:
+                                                        stack.append(prod.attrib['NonTerminalIndex'])
+                                                        stack.append(int(colunaR.attrib['Value']))
+                                                        Rc = 1
+                                                        print("\nRedução 2: ", pilha)       #DEBUG APÓS REDUÇÃO
+                                                        break
+                                            if Rc == 1:
+                                                Rc = 0
+                                                break
+
+                                    elif coluna.attrib['Action'] == '4':          
+                                        controle = 0
+                                        erro = -1
+                                        print("\nAceita: ", stack)      #DEBUG ACEITA
+                                        break
+                        break
+                if controle == 0:
+                    break
+            if erro != -1:
+                print("\nErro de sintaxe!\n")                              
+            #print(productions)
         s_table, fita = scanner()
         parser(s_table, fita)    
         exit()
@@ -557,8 +646,7 @@ class Analise(Inuteis):
         #             x['Estado'] = symbol.attrib['Index']  
 
        
-        print(fitaS)
-    
+       
 
         exit()
         pilha = []

@@ -39,13 +39,12 @@ def get_state(token):
         return ' '.join(str(etat) for etat in current_state)
     return current_state
 
-def add_token_in_token_line(word, line, token_line, tk_type, ribbon):
-    final_states = get_final_states()
+def add_token_in_token_line(word, line, token_line, tk_type):
     state = get_state(word)
     token_line.append({"state": state, "token": word, "type": tk_type,  "line": line})
-    if int(state) in final_states:
-        ribbon.append({"state": state, "token": word, "line": line})
-    return (token_line, ribbon)
+    # if int(state) in final_states:
+    #     ribbon.append(state)
+    return (token_line, state)
 
 def scanner():
     table_symbols = []
@@ -54,6 +53,7 @@ def scanner():
     count_line = 0
     #state = 0
     fita = []
+    final_states = get_final_states()
     for index, line in enumerate(read_file()):
         token_line = []
         current_line = str(index+1)
@@ -86,17 +86,20 @@ def scanner():
                     has_error = True
                     token_line.append({"state": -1, "token": token, "type": "Error",  "line": current_line})
                     print(f"(Lexical error) --> Token {token} at line: {current_line} is not valid")
-                if not has_error and token not in table_symbols:  
-                    token_line, ribbon = add_token_in_token_line(token, current_line, token_line,token_type, fita)
-                    if ribbon:
-                        fita.append(ribbon)   
+                if not has_error and token:  
+                    token_line, state = add_token_in_token_line(token, current_line, token_line,token_type)
+                    #print(state)
+                    if state in final_states:
+                        fita.append(state)   
             table_symbols.append(token_line)
     table_symbols.append([{"state": -1, "token": "$", "type": "EOF",  "line": current_line+str(1)}])
-    #print(table_symbols)
+    # print(fita)
+    # #print(final_states)
+    # exit()
     if has_error:
         exit()
     write_tables_of_symbles_as_json(table_symbols)
-    return table_symbols
+    return (table_symbols, final_states)
 
     # except Exception as e:
     #     print('Something get wrong, retry -->'+ str(e))
