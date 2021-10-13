@@ -527,7 +527,7 @@ class Analise(Inuteis):
 
             for error in symbols_table:
                 if error['State'] == -1:
-                    print(f"(Lexical error) --> Token {error['Line']} at line: {error['Label']} is not valid")
+                    print(f"(Lexical error) --> Token {error['Label']} at line: {error['Line']} is not valid")
                     has_error = True
             if has_error: exit()
 
@@ -563,12 +563,12 @@ class Analise(Inuteis):
                     #print(x['Label'][0])
                     if x['Label'].lstrip() == symbol_name:
                         x['State'] = symbol_state 
-                    elif symbol_name == 'ID' or symbol_name == 'NUMBER':
-                        x['State'] = symbol_state
-                        #print('eleleleleifff  1')
-                    # elif x['Label'][0] == '0' and symbol_name == '0constant':
-                    #     x['State'] = symbol_state  
-                    #     print('eleleleleifff  2')
+                    # elif symbol_name == 'ID' or symbol_name == 'NUMBER':
+                    #     x['State'] = symbol_state
+                    #     print('eleleleleifff  1')
+                    elif x['Label'][0] == '_' and symbol_name == '_ID':
+                        x['State'] = symbol_state  
+                        print('eleleleleifff  2')
             #exit()        
             print(s_table)
             exit()            
