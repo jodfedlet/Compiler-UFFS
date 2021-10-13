@@ -8,3 +8,13 @@
 <OP> ::= '+' | '-' | '*' | '/' | '=' | '&' | '||' | '!=' | '!'
 <EXPR> ::= ID <EXPRP> | NUMBER <EXPRP> | <OP> <EXPRP> | '(' <EXPR> <EXPRP> ')' 
 <EXPRP> ::= <OP> <EXPR> <EXPRP> | <>
+
+
+"Start Symbol" = <S>
+<S> ::= <STATEMENT>
+<STATEMENT> ::= <ASSIGNMENT> | <CONDITIONAL> | <LOOP>
+<ASSIGNMENT> ::= ID  '=' <EXPR> 
+<CONDITIONAL> ::=  'if' <EXPR>  '{' <S>  '}'
+<LOOP> ::= 'while' <EXPR> '{' <S> '}'
+<OP> ::= '+' | '-' | '*' | '/' | '=' | '&' | '||' | '!=' | '!'
+<EXPR> ::= ID | ID <OP> ID | ID <OP> NUMBER | NUMBER <OP> NUMBER | NUMBER <OP> ID
