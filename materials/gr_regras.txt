@@ -1,9 +1,9 @@
 "Start Symbol" = <S>
 <S> ::= <STATEMENT>
 <STATEMENT> ::= <ASSIGNMENT> | <CONDITIONAL> | <LOOP>
-<ASSIGNMENT> ::= ID  '=' <EXPR> 
+<ASSIGNMENT> ::= 'ID'  '=' <EXPR> 
 <CONDITIONAL> ::=  'if' <EXPR>  '{' <S>  '}' <CONDITIONALP>
 <CONDITIONALP> ::=  'else' '{' <S> '}' | <>
 <LOOP> ::= 'while' <EXPR> '{' <S> '}'
-<OP> ::= '+' | '-' | '*' | '/' | '=' | '&' | '||' | '!=' | '!'
-<EXPR> ::= ID | ID <OP> ID | ID <OP> NUMBER | NUMBER <OP> NUMBER | NUMBER <OP> ID
+<OP> ::= '+' | '-' | '*' | '/' | '='
+<EXPR> ::= 'ID' | 'ID' <OP> 'ID' | 'ID' <OP> 'NUMBER' | 'NUMBER' <OP> 'NUMBER'| 'NUMBER' <OP> 'ID'
