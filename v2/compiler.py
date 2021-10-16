@@ -505,7 +505,7 @@ class Analise(Inuteis):
         def scanner():
             automata = self.pegarAutomato()
             has_error = False
-            symbols_table , ribbon = [] , []
+            symbols_table = []
             word = ''
             state = 0
             delimiters = set([" ","\n","\t",])
@@ -531,54 +531,69 @@ class Analise(Inuteis):
                     has_error = True
             if has_error: exit()
 
-            for symbol in symbols_table:
-                ribbon.append(symbol['State'])
-            ribbon.append(0)
-            
-            return (symbols_table, ribbon)
+            return symbols_table
         
-        def parser(s_table, fita):
+        def parser(s_table):
             tree = ET.parse('./config/parser.xml')
             root = tree.getroot()
 
             symbols = [ {'Name':s.get('Name'), 'Index':s.get('Index'), 'Type':s.get('Type')} for s in root.iter('Symbol')]  
-            # productions = [ {'Index':s.get('Index'), 'SymbolCount':s.get('SymbolCount'), 'NonTerminalIndex':s.get('NonTerminalIndex')} for s in root.iter('Production')]    
+            productions = [ {'Index':s.get('Index'), 'SymbolCount':s.get('SymbolCount'), 'NonTerminalIndex':s.get('NonTerminalIndex')} for s in root.iter('Production')]    
             
+            lalr_table = []
+            for lalr_state in root.iter('LALRState'):
+                lalr_table.append({})
+                for lalr_action in lalr_state:
+                    lalr_table[int(lalr_state.get('Index'))][lalr_action.get('SymbolIndex')] = {'Action':lalr_action.get('Action'), 'Value':lalr_action.get('Value')}
+        
+            def table_mapping():
+                for symbol in symbols:
+                    symbol_name = symbol['Name']
+                    symbol_state = symbol['Index']
+                    for x in s_table:
+                        label_name = x['Label'].lstrip()
+                        if  label_name == symbol_name:
+                            x['State'] = symbol_state 
+                        elif len(label_name) > 0 and label_name[0] == '_' and symbol_name == '_ID':
+                            x['State'] = symbol_state  
+                      
+                fita = [int(symb_['State']) for symb_ in s_table]    
+                fita.append(0) 
+                return (s_table, fita)
             # print(s_table)
             # exit()
-            # lalr_table = []
-            # for lalr_state in root.iter('LALRState'):
-            #     lalr_table.append({})
-            #     for lalr_action in lalr_state:
-            #         lalr_table[int(lalr_state.get('Index'))][lalr_action.get('SymbolIndex')] = {'Action':lalr_action.get('Action'), 'Value':lalr_action.get('Value')}
-        
+           
             # print (s_table)
             # print('\n')
             # exit()
             
-            for symbol in symbols:
-                symbol_name = symbol['Name']
-                symbol_state = symbol['Index']
-                for x in s_table:
-                    # print(x['Label'][0], x['Label'][-1])
-                    #print(x['Label'][0], x['Label'])
-                    label_name = x['Label'].lstrip()
-                    if  label_name == symbol_name:
-                        x['State'] = symbol_state 
-                        #print(symbol_name)
-                    # elif symbol_name == 'ID' or symbol_name == 'NUMBER':
-                    #     x['State'] = symbol_state
-                    #     print('eleleleleifff  1')
-                    elif len(label_name) > 0 and label_name[0] == '_' and symbol_name == '_ID':
-                        x['State'] = symbol_state  
-                        #print(symbol_name)
-                       # print(x['Label'][0], symbol_name, end=' ')
-                    # else:
-                    #     if x['Label'][0] == '_':
-                    #         print(x['Label'])  
-                    #     exit()  
-            #exit()        
-            print(s_table)
+            
+               
+            table, ribbon = table_mapping()
+                        
+            stack = [0]
+            while True:
+                try:
+                    action = lalr_table[stack[0]][str(ribbon[0])]
+                except KeyError:
+                    print(f"(Lexical error) --> Token {error['Label']} at line: {error['Line']} is not valid")
+                    break
+                
+                current_action = int(action['Value'])
+                if current_action == 1:
+                    stack.append(ribbon[0])
+                    stack.append(action['Value'])
+                  
+                elif current_action == 2:
+                    pass  
+                
+                elif current_action == 3:
+                    pass 
+                
+                elif current_action == 4:
+                    pass 
+                    
+                
             exit()            
             stack = [0]
             erro = 0
@@ -637,8 +652,7 @@ class Analise(Inuteis):
             if erro != -1:
                 print("\nErro de sintaxe!\n")                              
             #print(productions)
-        s_table, fita = scanner()
-        parser(s_table, fita)    
+        parser(scanner())    
         exit()
         #exit()
         # xml_parser = "./config/GLC.xml"
