@@ -552,23 +552,31 @@ class Analise(Inuteis):
             #     for lalr_action in lalr_state:
             #         lalr_table[int(lalr_state.get('Index'))][lalr_action.get('SymbolIndex')] = {'Action':lalr_action.get('Action'), 'Value':lalr_action.get('Value')}
         
-            print (s_table)
-            print('\n')
+            # print (s_table)
+            # print('\n')
+            # exit()
             
             for symbol in symbols:
                 symbol_name = symbol['Name']
                 symbol_state = symbol['Index']
                 for x in s_table:
                     # print(x['Label'][0], x['Label'][-1])
-                    #print(x['Label'][0])
-                    if x['Label'].lstrip() == symbol_name:
+                    #print(x['Label'][0], x['Label'])
+                    label_name = x['Label'].lstrip()
+                    if  label_name == symbol_name:
                         x['State'] = symbol_state 
+                        #print(symbol_name)
                     # elif symbol_name == 'ID' or symbol_name == 'NUMBER':
                     #     x['State'] = symbol_state
                     #     print('eleleleleifff  1')
-                    elif x['Label'][0] == '_' and symbol_name == '_ID':
+                    elif len(label_name) > 0 and label_name[0] == '_' and symbol_name == '_ID':
                         x['State'] = symbol_state  
-                        print('eleleleleifff  2')
+                        #print(symbol_name)
+                       # print(x['Label'][0], symbol_name, end=' ')
+                    # else:
+                    #     if x['Label'][0] == '_':
+                    #         print(x['Label'])  
+                    #     exit()  
             #exit()        
             print(s_table)
             exit()            
