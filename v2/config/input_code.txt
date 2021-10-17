@@ -1,5 +1,5 @@
 _a = 2
-if _a > 2 {
+if _a +: 2 {
   print ( _a )
 } else {
   _a = _a + 1
