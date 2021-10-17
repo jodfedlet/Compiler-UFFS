@@ -517,7 +517,7 @@ class Analise(Inuteis):
                     if char in delimiters and word:
                         symbols_table.append({'Line': int(current_line), 'State': state, 'Label': word})
                         state = 0
-                        word = ''
+                        word = ' '
                     else: 
                         try:
                             state = automata[state][char][0]
@@ -587,7 +587,6 @@ class Analise(Inuteis):
                     break
                 
                 current_action = int(action['Action'])
-                #print('Action: ' ,type(current_action), current_action)
                 if current_action == 1:
                     stack.insert(0, ribbon[0])
                     stack.insert(0, action['Value'])
