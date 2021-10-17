@@ -1,8 +1,8 @@
-a = 5
-if a_2 > 2 {
-    a = a - 1
+_a = 2
+if _a > 2 {
+    _a = _a - 1
 } 
 else {
-    a = a + 1
+    _a = _a + 1
 }
-print ( a )
+print ( _a )

@@ -566,6 +566,7 @@ class Analise(Inuteis):
             # exit()          
             stack = [0]
             while True:
+                #TODO finalizar reconhecimento
                 print('Fita: --> ' +str(ribbon))
                 print('Fita[0]: --> ' +str(ribbon[0]))
                 print('Stack: --> ' +str(stack))
