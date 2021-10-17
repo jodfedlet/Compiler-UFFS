@@ -508,14 +508,14 @@ class Analise(Inuteis):
             symbols_table = []
             word = ''
             state = 0
-            delimiters = set([" ","\n","\t",])
+            delimiters = set([" ","\n","\t"])
             for index, line in enumerate(list(open('./config/input_code.txt'))):
                 current_line = str(index+1)
                 for char in line:
                     if char in delimiters and word:
-                        symbols_table.append({'Line': int(current_line), 'State': state, 'Label': word.strip('\n')})
+                        symbols_table.append({'Line': int(current_line), 'State': state, 'Label': word})
                         state = 0
-                        word = ' '
+                        word = ''
                     else: 
                         try:
                             state = automata[state][char][0]
@@ -523,14 +523,12 @@ class Analise(Inuteis):
                             state = -1
                         if char != ' ':
                             word += char
-
-
+                            
             for error in symbols_table:
                 if error['State'] == -1:
                     print(f"(Lexical error) --> Token {error['Label']} at line: {error['Line']} is not valid")
                     has_error = True
             if has_error: exit()
-
             return symbols_table
         
         def parser(s_table):
@@ -558,42 +556,57 @@ class Analise(Inuteis):
                             x['State'] = symbol_state  
                       
                 fita = [int(symb_['State']) for symb_ in s_table]    
-                fita.append(0) 
+                #fita.append(0) 
                 return (s_table, fita)
-            # print(s_table)
-            # exit()
            
-            # print (s_table)
-            # print('\n')
-            # exit()
-            
-            
-               
             table, ribbon = table_mapping()
-                        
+            table.append({"Line": "EOF", "State": "-1", "Label": "$"})
+                      
+            # print(table)
+            # exit()          
             stack = [0]
             while True:
+                print('Fita[0]: --> ' +str(ribbon[0]))
+                print('Stack[0]: --> ' +str(stack[0]))
+                print(lalr_table[int(stack[0])])
+                print()
                 try:
-                    action = lalr_table[stack[0]][str(ribbon[0])]
-                except KeyError:
-                    print(f"(Lexical error) --> Token {error['Label']} at line: {error['Line']} is not valid")
+                    action = lalr_table[int(stack[0])][str(ribbon[0])]
+                except KeyError as e:
+                    error = {}
+                    for tab in table:
+                        if str(tab['State']) == str(e.args[0]):
+                            error.update({"line": tab['Line'] , "label": tab['Label']})
+                            break
+                    print(f"(SyntaxError) --> Token {error['label']} at line: {error['line']} is not valid")
                     break
                 
-                current_action = int(action['Value'])
+                current_action = int(action['Action'])
                 if current_action == 1:
-                    stack.append(ribbon[0])
-                    stack.append(action['Value'])
-                  
+                    # stack.pop(0)
+                    stack.insert(0, ribbon[0])
+                    stack.insert(0, action['Value'])
+                    ribbon.pop(0)
+                    
                 elif current_action == 2:
+                    print('Action 2')
+                    exit()
                     pass  
                 
                 elif current_action == 3:
+                    print('Action 3')
+                    exit()
                     pass 
                 
                 elif current_action == 4:
-                    pass 
+                    print('Action 4 ')
                     
+                    pass 
                 
+                if len(ribbon) <= 0:
+                    print('Accepted')  
+                    exit() 
+                print(stack)
             exit()            
             stack = [0]
             erro = 0
