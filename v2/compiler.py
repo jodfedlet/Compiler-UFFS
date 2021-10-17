@@ -1,4 +1,6 @@
-# from Producao import Producao
+#Copyright
+#Part of this project has been cloned from project(CleissonVieira) in order to generate the FDA
+
 import xml.etree.ElementTree as ET
 import re
 import sys
