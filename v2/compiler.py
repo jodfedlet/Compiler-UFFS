@@ -526,7 +526,7 @@ class Analise(Inuteis):
                             
             for error in symbols_table:
                 if error['State'] == -1:
-                    print(f"(Lexical error) --> Token {error['Label']} at line: {error['Line']} is not valid")
+                    print(f"(LexicalError) --> Token {error['Label']} at line: {error['Line']} is not valid")
                     has_error = True
             if has_error: exit()
             return symbols_table
@@ -550,7 +550,7 @@ class Analise(Inuteis):
                     symbol_state = symbol['Index']
                     for x in s_table:
                         label_name = x['Label'].lstrip()
-                        if  label_name == symbol_name:
+                        if label_name == symbol_name:
                             x['State'] = symbol_state 
                         elif len(label_name) > 0 and label_name[0] == '_' and symbol_name == '_ID':
                             x['State'] = symbol_state  
@@ -566,14 +566,16 @@ class Analise(Inuteis):
             # exit()          
             stack = [0]
             while True:
+                print('Fita: --> ' +str(ribbon))
                 print('Fita[0]: --> ' +str(ribbon[0]))
+                print('Stack: --> ' +str(stack))
                 print('Stack[0]: --> ' +str(stack[0]))
                 print(lalr_table[int(stack[0])])
                 print()
                 try:
                     action = lalr_table[int(stack[0])][str(ribbon[0])]
                 except KeyError as e:
-                    error = {}
+                    error = {"line": '' , "label": ''}
                     for tab in table:
                         if str(tab['State']) == str(e.args[0]):
                             error.update({"line": tab['Line'] , "label": tab['Label']})
@@ -582,8 +584,8 @@ class Analise(Inuteis):
                     break
                 
                 current_action = int(action['Action'])
+                #print('Action: ' ,type(current_action), current_action)
                 if current_action == 1:
-                    # stack.pop(0)
                     stack.insert(0, ribbon[0])
                     stack.insert(0, action['Value'])
                     ribbon.pop(0)
@@ -606,7 +608,7 @@ class Analise(Inuteis):
                 if len(ribbon) <= 0:
                     print('Accepted')  
                     exit() 
-                print(stack)
+                #print(stack)
             exit()            
             stack = [0]
             erro = 0
