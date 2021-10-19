@@ -513,22 +513,24 @@ class Analise(Inuteis):
             delimiters = set([" ","\n","\t"])
             for index, line in enumerate(list(open('./config/input_code.txt'))):
                 current_line = str(index+1)
+                column = 0
                 for char in line:
                     if char in delimiters and word:
-                        symbols_table.append({'Line': int(current_line), 'State': state, 'Label': word})
+                        column += 1 
+                        symbols_table.append({'Line': int(current_line), 'State': state, 'Label': word, 'Column': column})
                         state = 0
-                        word = ' '
+                        word = ' ' 
                     else: 
                         try:
                             state = automata[state][char][0]
                         except KeyError:
                             state = -1
                         if char != ' ':
-                            word += char
+                            word += char      
                             
             for error in symbols_table:
                 if error['State'] == -1:
-                    print(f"(LexicalError) --> Token {error['Label']} at line: {error['Line']} is not valid")
+                    print(f"(LexicalError) --> Token {error['Label']} at line: {error['Line']} and {error['column']} is not valid")
                     has_error = True
             if has_error: exit()
             return symbols_table
@@ -568,7 +570,7 @@ class Analise(Inuteis):
             # exit()          
             stack = [0]
             while True:
-                #TODO finalizar reconhecimento
+                #TODO finalizar reconhecimento de linguagem com if, print e gerar novo parser para as alterações da GR
                 print('Fita: --> ' +str(ribbon))
                 print('Fita[0]: --> ' +str(ribbon[0]))
                 print('Stack: --> ' +str(stack))
@@ -578,176 +580,45 @@ class Analise(Inuteis):
                 try:
                     action = lalr_table[int(stack[0])][str(ribbon[0])]
                 except KeyError as e:
+                    print("KeyError: -->"+str(e))
                     error = {"line": '' , "label": ''}
                     for tab in table:
                         if str(tab['State']) == str(e.args[0]):
-                            error.update({"line": tab['Line'] , "label": tab['Label']})
+                            error.update({"line": tab['Line'], "column": tab['Column'] , "label": tab['Label']})
                             break
-                    print(f"(SyntaxError) --> Token {error['label']} at line: {error['line']} is not valid")
+                    print(f"(SyntaxError) --> Token {error['label']} at line: {error['line']} and column {error['column']} is not valid")
                     break
                 
                 current_action = int(action['Action'])
                 if current_action == 1:
+                    print('Shift')
                     stack.insert(0, ribbon[0])
                     stack.insert(0, action['Value'])
                     ribbon.pop(0)
                     
                 elif current_action == 2:
-                    print('Action 2')
-                    exit()
-                    pass  
-                
+                    print('Reduce')
+                    prod = productions[int(action['Value'])]
+                    countSymbol = int(prod['SymbolCount']) * 2
+                    # print('Stack: --> ' +str(stack))
+                    # print(countSymbol)
+                    
+                    for i in range(countSymbol): stack.pop(0)
+                    
+                    #print('Stack: --> ' +str(stack))    
+                   
+                    stack.insert(0, prod['NonTerminalIndex'])
+                    stack.insert(0, lalr_table[int(stack[1])][stack[0]]['Value'])
+                    
                 elif current_action == 3:
                     print('Action 3')
                     exit()
                     pass 
                 
                 elif current_action == 4:
-                    print('Action 4 ')
-                    
-                    pass 
-                
-                if len(ribbon) <= 0:
-                    print('Accepted')  
-                    exit() 
-                #print(stack)
-            exit()            
-            stack = [0]
-            erro = 0
-            Rc = 0
-            controle = 0
-            
-            for f in fita:
-                while True:
-                    if erro == 1 or erro == -1:
-                        break
-                    
-                    for lalr_state in root.iter('LALRState'):
-                        if stack[-1] == int(lalr_state.get('Index')):
-                            for lalr_action in lalr_state:
-                                #print(f, lalr_action.get('SymbolIndex'))
-                                if int(f) != int(lalr_action.get('SymbolIndex')): break
-                                else:
-                                    action = lalr_action.get('Action')
-                                    value = lalr_action.get('Value')
-                                    if action == '1':
-                                        stack.append(f)
-                                        stack.append(value)
-                                    elif action == '2':
-                                        controle = 1
-                                        for prod in root.iter('Production'):
-                                            if prod.attrib['Index'] == coluna.attrib['Value']:
-                                                Rx = 2 * int(prod.attrib['SymbolCount'])
-                                                break
-                                        if len(pilha) <= Rx:
-                                            erro = 1
-                                            break
-                                        for remove in range(Rx):
-                                            stack.pop()
-                                            print("\nRedução 1: ", stack)     #DEBUG REDUÇÃO
-                                        for linhaR in root.iter('LALRState'):
-                                            if linhaR.attrib['Index'] == str(pilha[-1]):
-                                                for colunaR in linhaR:
-                                                    if colunaR.attrib['SymbolIndex'] == prod.attrib['NonTerminalIndex']:
-                                                        stack.append(prod.attrib['NonTerminalIndex'])
-                                                        stack.append(int(colunaR.attrib['Value']))
-                                                        Rc = 1
-                                                        print("\nRedução 2: ", pilha)       #DEBUG APÓS REDUÇÃO
-                                                        break
-                                            if Rc == 1:
-                                                Rc = 0
-                                                break
-
-                                    elif coluna.attrib['Action'] == '4':          
-                                        controle = 0
-                                        erro = -1
-                                        print("\nAceita: ", stack)      #DEBUG ACEITA
-                                        break
-                        break
-                if controle == 0:
+                    print(action['Value'])
+                    print('OK -> Accepted')
                     break
-            if erro != -1:
-                print("\nErro de sintaxe!\n")                              
-            #print(productions)
-        parser(scanner())    
-        exit()
-        #exit()
-        # xml_parser = "./config/GLC.xml"
-        # tree = ET.parse(xml_parser)
-        # root = tree.getroot()
-        # for symbol in root.iter('Symbol'):
-        #     for x in Ts:
-        #         if x['Rotulo'] == symbol.attrib['Name']:
-        #             x['Estado'] = symbol.attrib['Index'] 
-        #         elif x['Rotulo'][0] == '.' and x['Rotulo'][-1] == '~' and symbol.attrib['Name'] == '.name.':
-        #             x['Estado'] = symbol.attrib['Index']
-        #         elif x['Rotulo'][0] == '0' and symbol.attrib['Name'] == '0constant':
-        #             x['Estado'] = symbol.attrib['Index']  
-
-       
-       
-
-        exit()
-        pilha = []
-        pilha.append(0)
-        erro = 0
-        Rc = 0
-        controle = 0
-        for fita in fitaS:
-            while 1:
-                if erro == 1 or erro == -1:
-                    break
-                for linha in root.iter('LALRState'):
-                    if erro == 1 or erro == -1:
-                        break
-                    elif linha.attrib['Index'] == str(pilha[-1]):
-                        for coluna in linha:
-                            if coluna.attrib['SymbolIndex'] == fita:
-
-                                if coluna.attrib['Action'] == '1':             
-                                    controle = 0
-                                    pilha.append(fita)
-                                    pilha.append(int(coluna.attrib['Value']))
-                                    # print("\nEmpilha: ", pilha)     #DEBUG EMPILHA
-                                    break
-
-                                elif coluna.attrib['Action'] == '2':            
-                                    controle = 1
-                                    for prod in root.iter('Production'):
-                                        if prod.attrib['Index'] == coluna.attrib['Value']:
-                                            Rx = 2 * int(prod.attrib['SymbolCount'])
-                                            break
-                                    if len(pilha) <= Rx:
-                                        erro = 1
-                                        break
-                                    for remove in range(Rx):
-                                        pilha.pop()
-                                        # print("\nRedução 1: ", pilha)     #DEBUG REDUÇÃO
-                                    for linhaR in root.iter('LALRState'):
-                                        if linhaR.attrib['Index'] == str(pilha[-1]):
-                                            for colunaR in linhaR:
-                                                if colunaR.attrib['SymbolIndex'] == prod.attrib['NonTerminalIndex']:
-                                                    pilha.append(prod.attrib['NonTerminalIndex'])
-                                                    pilha.append(int(colunaR.attrib['Value']))
-                                                    Rc = 1
-                                                    # print("\nRedução 2: ", pilha)       #DEBUG APÓS REDUÇÃO
-                                                    break
-                                        if Rc == 1:
-                                            Rc = 0
-                                            break
-
-                                elif coluna.attrib['Action'] == '4':          
-                                    controle = 0
-                                    erro = -1
-                                    # print("\nAceita: ", pilha)      #DEBUG ACEITA
-                                    break
-                        break
-                if controle == 0:
-                    break
-
-        if erro != -1:
-            print("\nErro de sintaxe!\n")
-
-
+        parser(scanner())        
 analise = Analise(semInalcancaveis)
 analise.compiler()

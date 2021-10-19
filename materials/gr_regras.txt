@@ -1,11 +1,11 @@
 "Start Symbol" = <S>
-<S> ::= <STATEMENT>
-<STATEMENT> ::= <ID> '=' <EXPR> | <CONDITIONAL> | <LOOP>
-<CONDITIONAL> ::= 'if' <EXPR>  '{' <S>  '}' <CONDITIONALP>
+<S> ::= <ID> '=' <EXPR> | <CONDITIONAL> | <LOOP> | <SHOW>
+<SHOW> ::= 'print (' <ID> ')'
+<CONDITIONAL> ::= 'if' <EXPR>  '{' <S> '}' <CONDITIONALP>
 <CONDITIONALP> ::= 'else' '{' <S> '}' | <>
 <LOOP> ::= 'while' <EXPR> '{' <S> '}'
-<OP> ::= '+' | '-' | '*' | '/' | '=' | '+:' | '+:=' | ':-=' | ':-' | '!='     
+<OP> ::= '+' | '-' | '*' | '/' | '=' | '+:' | '+:=' | ':-=' | ':-' | '!=' | '=='    
 <EXPR> ::= <ID> | <ID> <OP> <ID> | <ID> <OP> <NUMBER> | <NUMBER> <OP> <NUMBER> | <NUMBER> <OP> <ID> | <NUMBER>
-<NUMBER> ::= 1 <NUM> | 2 <NUM> | 3 <NUM> | 4 <NUM>
-<NUM> ::= 1 <NUM> | 2 <NUM>| 3 <NUM> | 4 <NUM> | <>
+<NUMBER> ::= 1<NUM> | 2<NUM> | 3<NUM> | 4<NUM>
+<NUM> ::= 1<NUM> | 2<NUM>| 3<NUM> | 4<NUM> | <>
 <ID> ::= '_ID'
