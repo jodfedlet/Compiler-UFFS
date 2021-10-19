@@ -1,1 +1,3 @@
-print ( _a )
+while _a = _b {
+   _a = 2
+}

@@ -8,12 +8,12 @@ _a = _b
 _a = 2 
 print ( _d ) 
 
-#Fix to accept
+#Accepted
 while _a = _b {
    _a = 2
 }
 
-#Fix to accept
+#Accepted
 if _a +:= 2 {
   print ( _a ) 
 } else { 

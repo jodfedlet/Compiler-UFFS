@@ -523,7 +523,8 @@ class Analise(Inuteis):
                         flag = True if word.lstrip() in custom or word == ' ' else False
                         if not flag and state not in list(self.Finais): state = -1
                         
-                        symbols_table.append({'Line': int(current_line), 'State': state, 'Label': word.strip('\n').lstrip(), 'Column': column})
+                        if len(word) > 1:
+                            symbols_table.append({'Line': int(current_line), 'State': state, 'Label': word.strip('\n').lstrip(), 'Column': column})
                         state = 0
                         word = ' ' 
                     else: 
@@ -538,6 +539,8 @@ class Analise(Inuteis):
                     print(f"(LexicalError) --> Token {error['Label']} at position: file[{error['Line']}, {error['Column']}] is not valid")
                     has_error = True
             if has_error: exit()
+            # print(symbols_table)
+            # exit()
             return symbols_table
         
         def parser(s_table):
@@ -553,8 +556,6 @@ class Analise(Inuteis):
                 for lalr_action in lalr_state:
                     lalr_table[int(lalr_state.get('Index'))][lalr_action.get('SymbolIndex')] = {'Action':lalr_action.get('Action'), 'Value':lalr_action.get('Value')}
         
-            # print(lalr_table)
-            # exit()
             def table_mapping():
                 for symbol in symbols:
                     symbol_name = symbol['Name']
@@ -564,7 +565,9 @@ class Analise(Inuteis):
                         if label_name == symbol_name:
                             x['State'] = symbol_state 
                         elif len(label_name) > 0 and label_name[0] == '_' and symbol_name == '_ID':
-                            x['State'] = symbol_state  
+                            x['State'] = symbol_state   
+                        # elif label_name == '':
+                        #     x['state'] = symbols[0]['Index'] 
                             
                 s_table.append({"Line": "EOF", "State": "0", "Label": "$", "Column": "EOC"})      
                 fita = [int(symb_['State']) for symb_ in s_table]  
@@ -574,7 +577,7 @@ class Analise(Inuteis):
            
             # print(ribbon)          
             # print(table)
-            # exit()          
+            #exit()          
             stack = [0]
             while True:
                 #TODO finalizar reconhecimento com quebra de linha
@@ -591,6 +594,7 @@ class Analise(Inuteis):
                     error = {"line": '' , "label": ''}
                     for index, tab in enumerate(table):
                         if str(tab['State']) == str(e.args[0]):
+                            print(tab)
                             if tab['Label'] == '$': tab = table[index-1]
                             error.update({"line": tab['Line'], "column": tab['Column'] , "label": tab['Label']})
                             break
@@ -626,6 +630,7 @@ class Analise(Inuteis):
                     print(action['Value'])
                     print('OK -> Accepted')
                     break
+        
         parser(scanner())
                 
 analise = Analise(semInalcancaveis)
