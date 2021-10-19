@@ -1,7 +1,6 @@
 "Start Symbol" = <S>
-<S> ::= <ID> '=' <EXPR> | <CONDITIONAL> | <LOOP> | <SHOW>
-<SHOW> ::= 'print (' <ID> ')'
-<CONDITIONAL> ::= 'if' <EXPR>  '{' <S> '}' <CONDITIONALP>
+<S> ::= <ID> '=' <EXPR> | <CONDITIONAL> | <LOOP> | 'print' '(' <ID> ')'
+<CONDITIONAL> ::= 'if' <EXPR> '{' <S> '}' <CONDITIONALP>
 <CONDITIONALP> ::= 'else' '{' <S> '}' | <>
 <LOOP> ::= 'while' <EXPR> '{' <S> '}'
 <OP> ::= '+' | '-' | '*' | '/' | '=' | '+:' | '+:=' | ':-=' | ':-' | '!=' | '=='    

@@ -506,8 +506,6 @@ class Analise(Inuteis):
         
         def scanner():
             automata = self.pegarAutomato()
-            # print(automata)
-            # exit()
             has_error = False
             symbols_table = []
             word = ''
@@ -553,6 +551,8 @@ class Analise(Inuteis):
                 for lalr_action in lalr_state:
                     lalr_table[int(lalr_state.get('Index'))][lalr_action.get('SymbolIndex')] = {'Action':lalr_action.get('Action'), 'Value':lalr_action.get('Value')}
         
+            # print(lalr_table)
+            # exit()
             def table_mapping():
                 for symbol in symbols:
                     symbol_name = symbol['Name']
@@ -564,8 +564,9 @@ class Analise(Inuteis):
                         elif len(label_name) > 0 and label_name[0] == '_' and symbol_name == '_ID':
                             x['State'] = symbol_state  
                             
-                s_table.append({"Line": "EOF", "State": "0", "Label": "$"})      
-                fita = [int(symb_['State']) for symb_ in s_table]    
+                #s_table.append({"Line": "EOF", "State": "0", "Label": "$"})      
+                fita = [int(symb_['State']) for symb_ in s_table]
+                fita.append(0)    
                 return (s_table, fita)
            
             table, ribbon = table_mapping()
