@@ -230,7 +230,7 @@ class Inuteis(Automato):
 
 ############################## Organiza o automato para realizar as operacoes das classes abaixo ##############################
 automato = Automato()                           
-automato.carrega('./config/entrada.txt')                      
+automato.carrega('../materials/token_and_GR.txt')                      
 # automato.imprimir('\n\n# AUTOMATO LIDO:\n', True)  
 
 
@@ -512,7 +512,7 @@ class Analise(Inuteis):
             state = 0
             delimiters = set([" ","\n","\t"])
             custom = set([" ","if","else","print", "while", "-","*","/", "+:","+:=",":-",":-=", "=","==","(",")", "!=","!","{","}"])
-            for index, line in enumerate(list(open('./config/input_code.txt'))):
+            for index, line in enumerate(list(open('../materials/input_code.txt'))):
                 current_line = str(index+1)
                 column = 0
                 if not line.endswith(" "):
@@ -539,12 +539,10 @@ class Analise(Inuteis):
                     print(f"(LexicalError) --> Token {error['Label']} at position: file[{error['Line']}, {error['Column']}] is not valid")
                     has_error = True
             if has_error: exit()
-            # print(symbols_table)
-            # exit()
             return symbols_table
         
         def parser(s_table):
-            tree = ET.parse('./config/parser.xml')
+            tree = ET.parse('../materials/parser.xml')
             root = tree.getroot()
 
             symbols = [ {'Name':s.get('Name'), 'Index':s.get('Index'), 'Type':s.get('Type')} for s in root.iter('Symbol')]  
@@ -566,21 +564,15 @@ class Analise(Inuteis):
                             x['State'] = symbol_state 
                         elif len(label_name) > 0 and label_name[0] == '_' and symbol_name == '_ID':
                             x['State'] = symbol_state   
-                        # elif label_name == '':
-                        #     x['state'] = symbols[0]['Index'] 
                             
                 s_table.append({"Line": "EOF", "State": "0", "Label": "$", "Column": "EOC"})      
                 fita = [int(symb_['State']) for symb_ in s_table]  
                 return (s_table, fita)
            
             table, ribbon = table_mapping()
-           
-            # print(ribbon)          
-            # print(table)
-            #exit()          
+          
             stack = [0]
             while True:
-                #TODO finalizar reconhecimento com quebra de linha
                 print('Fita: --> ' +str(ribbon))
                 print('Fita[0]: --> ' +str(ribbon[0]))
                 print('Stack: --> ' +str(stack))

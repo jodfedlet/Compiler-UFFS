@@ -1,8 +1,0 @@
-if
-else
-
-<S> ::= a<A> | b<S> | b
-<A> ::= a<S> | b<A> | a
-
-<S> ::= a<A> | b<S> | a
-<A> ::= a<S> | b<A>
