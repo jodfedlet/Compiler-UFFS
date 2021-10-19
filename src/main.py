@@ -504,6 +504,24 @@ class Analise(Inuteis):
     
     def compiler(self):
         
+        from scanner_dependencies import token_delimiters, keyword_list, integers_number, variables, alfa
+        
+        token_delimiters = token_delimiters()
+        
+        def get_word_type(word):
+            token_type = "ID"
+            if integers_number.match(word):
+                token_type = "Number"
+            elif word in keyword_list():
+                token_type = "Keyword"
+            elif word in token_delimiters[0]:
+                token_type = f"ARITH({token_delimiters[0][word]})"
+            elif word in token_delimiters[1]:
+                token_type = f"RELAT({token_delimiters[1][word]})"
+            elif word in token_delimiters[2]:
+                token_type = f"DELIM({token_delimiters[2][word]})"
+            return token_type
+        
         def scanner():
             automata = self.pegarAutomato()
             has_error = False
@@ -524,7 +542,8 @@ class Analise(Inuteis):
                         if not flag and state not in list(self.Finais): state = -1
                         
                         if len(word) > 1:
-                            symbols_table.append({'Line': int(current_line), 'State': state, 'Label': word.strip('\n').lstrip(), 'Column': column})
+                            word_type = get_word_type(word.strip('\n').lstrip())
+                            symbols_table.append({'Line': int(current_line),  'Column': column, 'State': state, 'Label': word.strip('\n').lstrip(), 'Type': word_type})
                         state = 0
                         word = ' ' 
                     else: 
@@ -565,12 +584,12 @@ class Analise(Inuteis):
                         elif len(label_name) > 0 and label_name[0] == '_' and symbol_name == '_ID':
                             x['State'] = symbol_state   
                             
-                s_table.append({"Line": "EOF", "State": "0", "Label": "$", "Column": "EOC"})      
+                s_table.append({"Line": "EOF", "Column": "EOC", "State": "0", "Label": "$", "Type": "EOF"})      
                 fita = [int(symb_['State']) for symb_ in s_table]  
                 return (s_table, fita)
            
             table, ribbon = table_mapping()
-          
+            
             stack = [0]
             while True:
                 print('Fita: --> ' +str(ribbon))
