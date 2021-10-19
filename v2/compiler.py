@@ -606,9 +606,9 @@ class Analise(Inuteis):
                     for i in range(countSymbol): stack.pop(0)
                     
                     #print('Stack: --> ' +str(stack))    
-                   
+                    goto = lalr_table[int(stack[1])][stack[0]]['Value']
                     stack.insert(0, prod['NonTerminalIndex'])
-                    stack.insert(0, lalr_table[int(stack[1])][stack[0]]['Value'])
+                    stack.insert(0, goto)
                     
                 elif current_action == 3:
                     print('Action 3')
