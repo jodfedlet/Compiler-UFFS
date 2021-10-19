@@ -6,5 +6,5 @@
 <OP> ::= '+' | '-' | '*' | '/' | '=' | '+:' | '+:=' | ':-=' | ':-' | '!=' | '=='    
 <EXPR> ::= <ID> | <ID> <OP> <ID> | <ID> <OP> <NUMBER> | <NUMBER> <OP> <NUMBER> | <NUMBER> <OP> <ID> | <NUMBER>
 <NUMBER> ::= 1<NUM> | 2<NUM> | 3<NUM> | 4<NUM>
-<NUM> ::= 1<NUM> | 2<NUM>| 3<NUM> | 4<NUM> | <>
+<NUM> ::= <>
 <ID> ::= '_ID'
