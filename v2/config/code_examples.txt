@@ -1,0 +1,20 @@
+#handle lexical error
+_a = b 
+_a = _i 
+_a = 5
+
+#Accepted
+_a = _b
+_a = 2 
+
+#Fix to accept
+while _a = _b {
+   _a = 2
+}
+
+#Fix to accept
+if _a +:= 2 {
+  print ( _a ) 
+} else { 
+  _a = _a + 1
+} 

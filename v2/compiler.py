@@ -506,18 +506,24 @@ class Analise(Inuteis):
         
         def scanner():
             automata = self.pegarAutomato()
+            # print(automata)
+            # exit()
             has_error = False
             symbols_table = []
             word = ''
             state = 0
             delimiters = set([" ","\n","\t"])
+            custom = set([" ","if","else","print", "while", "-","*","/", "+:","+:=",":-",":-=", "=","==","(",")", "!=","!","{","}"])
             for index, line in enumerate(list(open('./config/input_code.txt'))):
                 current_line = str(index+1)
                 column = 0
                 for char in line:
                     if char in delimiters and word:
                         column += 1 
-                        symbols_table.append({'Line': int(current_line), 'State': state, 'Label': word, 'Column': column})
+                        flag = True if word.lstrip() in custom or word == ' ' else False
+                        if not flag and state not in list(self.Finais): state = -1
+                        
+                        symbols_table.append({'Line': int(current_line), 'State': state, 'Label': word.strip('\n').lstrip(), 'Column': column})
                         state = 0
                         word = ' ' 
                     else: 
@@ -525,12 +531,11 @@ class Analise(Inuteis):
                             state = automata[state][char][0]
                         except KeyError:
                             state = -1
-                        if char != ' ':
-                            word += char      
-                            
+                        if char: word += char      
+                                  
             for error in symbols_table:
                 if error['State'] == -1:
-                    print(f"(LexicalError) --> Token {error['Label']} at line: {error['Line']} and {error['column']} is not valid")
+                    print(f"(LexicalError) --> Token {error['Label']} at line: {error['Line']} and column {error['Column']} is not valid")
                     has_error = True
             if has_error: exit()
             return symbols_table
@@ -558,14 +563,14 @@ class Analise(Inuteis):
                             x['State'] = symbol_state 
                         elif len(label_name) > 0 and label_name[0] == '_' and symbol_name == '_ID':
                             x['State'] = symbol_state  
-                      
+                            
+                s_table.append({"Line": "EOF", "State": "0", "Label": "$"})      
                 fita = [int(symb_['State']) for symb_ in s_table]    
-                #fita.append(0) 
                 return (s_table, fita)
            
             table, ribbon = table_mapping()
-            table.append({"Line": "EOF", "State": "-1", "Label": "$"})
-                      
+           
+            # print(ribbon)          
             # print(table)
             # exit()          
             stack = [0]
@@ -586,7 +591,7 @@ class Analise(Inuteis):
                         if str(tab['State']) == str(e.args[0]):
                             error.update({"line": tab['Line'], "column": tab['Column'] , "label": tab['Label']})
                             break
-                    print(f"(SyntaxError) --> Token {error['label']} at line: {error['line']} and column {error['column']} is not valid")
+                    print(f"(SyntaxError) --> Token {error['label'].lstrip()} at line: {error['line']} and column {error['column']} is not valid")
                     break
                 
                 current_action = int(action['Action'])
@@ -606,8 +611,8 @@ class Analise(Inuteis):
                     for i in range(countSymbol): stack.pop(0)
                     
                     #print('Stack: --> ' +str(stack))    
-                    goto = lalr_table[int(stack[1])][stack[0]]['Value']
                     stack.insert(0, prod['NonTerminalIndex'])
+                    goto = lalr_table[int(stack[1])][stack[0]]['Value']
                     stack.insert(0, goto)
                     
                 elif current_action == 3:

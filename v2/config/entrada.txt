@@ -1,9 +1,6 @@
-for
 if
 else
-input
 print
-break
 while
 +
 -
@@ -24,7 +21,7 @@ while
 
 <S> ::= _<A>
 <A> ::= a<A> | b<A> | c<A> | d<A>
-<B> ::= a<A> | b<A> | c<A> | d<A> | $
+<B> ::= a<B> | b<B> | c<B> | d<B> | $
 
 <S> ::= 1<A> | 2<A> | 3<A> | 4<A> 
 <A> ::= 1<A> | 2<A> | 3<A> | 4<A> | $
