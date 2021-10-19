@@ -497,7 +497,7 @@ semMortos = Mortos(semInalcancaveis)
 semMortos.removerMortos()                 
 #semMortos.imprimir()      #DEBUG AUTOMATO FINITO
 
-############################## Analise Léxica / Sintática ##############################
+############################## Analisadores léxico e sintático ##############################
 class Analise(Inuteis):
     def __init__(self, automato):
         super(Analise, self).__init__(automato)
@@ -515,6 +515,8 @@ class Analise(Inuteis):
             for index, line in enumerate(list(open('./config/input_code.txt'))):
                 current_line = str(index+1)
                 column = 0
+                if not line.endswith(" "):
+                    line = line+" "
                 for char in line:
                     if char in delimiters and word:
                         column += 1 
@@ -529,11 +531,11 @@ class Analise(Inuteis):
                             state = automata[state][char][0]
                         except KeyError:
                             state = -1
-                        if char: word += char      
+                        if char: word += char                          
                                   
             for error in symbols_table:
                 if error['State'] == -1:
-                    print(f"(LexicalError) --> Token {error['Label']} at line: {error['Line']} and column {error['Column']} is not valid")
+                    print(f"(LexicalError) --> Token {error['Label']} at position: file[{error['Line']}, {error['Column']}] is not valid")
                     has_error = True
             if has_error: exit()
             return symbols_table
@@ -564,9 +566,8 @@ class Analise(Inuteis):
                         elif len(label_name) > 0 and label_name[0] == '_' and symbol_name == '_ID':
                             x['State'] = symbol_state  
                             
-                #s_table.append({"Line": "EOF", "State": "0", "Label": "$"})      
-                fita = [int(symb_['State']) for symb_ in s_table]
-                fita.append(0)    
+                s_table.append({"Line": "EOF", "State": "0", "Label": "$", "Column": "EOC"})      
+                fita = [int(symb_['State']) for symb_ in s_table]  
                 return (s_table, fita)
            
             table, ribbon = table_mapping()
@@ -576,7 +577,7 @@ class Analise(Inuteis):
             # exit()          
             stack = [0]
             while True:
-                #TODO finalizar reconhecimento de linguagem com if, print e gerar novo parser para as alterações da GR
+                #TODO finalizar reconhecimento com quebra de linha
                 print('Fita: --> ' +str(ribbon))
                 print('Fita[0]: --> ' +str(ribbon[0]))
                 print('Stack: --> ' +str(stack))
@@ -586,13 +587,17 @@ class Analise(Inuteis):
                 try:
                     action = lalr_table[int(stack[0])][str(ribbon[0])]
                 except KeyError as e:
-                    print("KeyError: -->"+str(e))
+                    #retornar infos do token que ocasionou o erro sintático
                     error = {"line": '' , "label": ''}
-                    for tab in table:
+                    for index, tab in enumerate(table):
                         if str(tab['State']) == str(e.args[0]):
+                            if tab['Label'] == '$': tab = table[index-1]
                             error.update({"line": tab['Line'], "column": tab['Column'] , "label": tab['Label']})
                             break
-                    print(f"(SyntaxError) --> Token {error['label'].lstrip()} at line: {error['line']} and column {error['column']} is not valid")
+                    try: 
+                        print(f"(SyntaxError) --> Token {error['label'].lstrip()} at position: file[{error['line']}, {error['column']}] is not valid")
+                    except KeyError as e:
+                        print(f"Erro no código principal --> Verifique o arquivo de entrada se contiver espaço no final")
                     break
                 
                 current_action = int(action['Action'])
@@ -606,12 +611,8 @@ class Analise(Inuteis):
                     print('Reduce')
                     prod = productions[int(action['Value'])]
                     countSymbol = int(prod['SymbolCount']) * 2
-                    # print('Stack: --> ' +str(stack))
-                    # print(countSymbol)
-                    
                     for i in range(countSymbol): stack.pop(0)
-                    
-                    #print('Stack: --> ' +str(stack))    
+                       
                     stack.insert(0, prod['NonTerminalIndex'])
                     goto = lalr_table[int(stack[1])][stack[0]]['Value']
                     stack.insert(0, goto)
@@ -625,6 +626,7 @@ class Analise(Inuteis):
                     print(action['Value'])
                     print('OK -> Accepted')
                     break
-        parser(scanner())        
+        parser(scanner())
+                
 analise = Analise(semInalcancaveis)
 analise.compiler()

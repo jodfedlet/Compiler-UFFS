@@ -6,6 +6,7 @@ _a = 5
 #Accepted
 _a = _b
 _a = 2 
+print ( _d ) 
 
 #Fix to accept
 while _a = _b {
