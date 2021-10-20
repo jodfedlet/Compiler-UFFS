@@ -592,12 +592,6 @@ class Analise(Inuteis):
             
             stack = [0]
             while True:
-                print('Fita: --> ' +str(ribbon))
-                print('Fita[0]: --> ' +str(ribbon[0]))
-                print('Stack: --> ' +str(stack))
-                print('Stack[0]: --> ' +str(stack[0]))
-                print(lalr_table[int(stack[0])])
-                print()
                 try:
                     action = lalr_table[int(stack[0])][str(ribbon[0])]
                 except KeyError as e:
@@ -617,13 +611,11 @@ class Analise(Inuteis):
                 
                 current_action = int(action['Action'])
                 if current_action == 1:
-                    print('Shift')
                     stack.insert(0, ribbon[0])
                     stack.insert(0, action['Value'])
                     ribbon.pop(0)
                     
                 elif current_action == 2:
-                    print('Reduce')
                     prod = productions[int(action['Value'])]
                     countSymbol = int(prod['SymbolCount']) * 2
                     for i in range(countSymbol): stack.pop(0)
@@ -638,9 +630,23 @@ class Analise(Inuteis):
                     pass 
                 
                 elif current_action == 4:
-                    print(action['Value'])
                     print('OK -> Accepted')
-                    break
+                    return table
+        
+        # def semantic_analyser(symbol_table):
+        #     from collections import defaultdict
+        #     dd = defaultdict(list)
+            
+        #     for d in tuple(symbol_table):
+        #         print(d)
+        #         for key, value in d.items():
+        #            dd[key].append(value)
+        #         # print(dd[key].append(value))
+        #         # print('_'*10)
+        #         #exit()
+        #         print(dd)
+        #         exit()
+
         
         parser(scanner())
                 
