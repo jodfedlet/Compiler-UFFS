@@ -1,9 +1,9 @@
-#handle lexical error
+#handle lexical error(input line by line)
 _a = b 
 _a = _i 
 _a = 5
 
-#Accepted
+#Accepted(input line by line)
 _a = _b
 _a = 2 
 print ( _d ) 

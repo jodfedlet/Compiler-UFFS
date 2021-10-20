@@ -599,7 +599,6 @@ class Analise(Inuteis):
                     error = {"line": '' , "label": ''}
                     for index, tab in enumerate(table):
                         if str(tab['State']) == str(e.args[0]):
-                            print(tab)
                             if tab['Label'] == '$': tab = table[index-1]
                             error.update({"line": tab['Line'], "column": tab['Column'] , "label": tab['Label']})
                             break
@@ -632,21 +631,6 @@ class Analise(Inuteis):
                 elif current_action == 4:
                     print('OK -> Accepted')
                     return table
-        
-        # def semantic_analyser(symbol_table):
-        #     from collections import defaultdict
-        #     dd = defaultdict(list)
-            
-        #     for d in tuple(symbol_table):
-        #         print(d)
-        #         for key, value in d.items():
-        #            dd[key].append(value)
-        #         # print(dd[key].append(value))
-        #         # print('_'*10)
-        #         #exit()
-        #         print(dd)
-        #         exit()
-
         
         parser(scanner())
                 
